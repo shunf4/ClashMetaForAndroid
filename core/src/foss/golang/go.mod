@@ -12,7 +12,9 @@ require (
 	github.com/RyuaNerin/go-krypto v1.2.4 // indirect
 	github.com/Yawning/aez v0.0.0-20211027044916-e49e68abd344 // indirect
 	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da // indirect
+	github.com/ajg/form v1.5.1 // indirect
 	github.com/andybalholm/brotli v1.0.6 // indirect
+	github.com/aohorodnyk/mimeheader v0.0.6 // indirect
 	github.com/bahlo/generic-list-go v0.2.0 // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect
 	github.com/cilium/ebpf v0.12.3 // indirect
@@ -23,8 +25,11 @@ require (
 	github.com/ericlagergren/polyval v0.0.0-20220411101811-e25bc10ba391 // indirect
 	github.com/ericlagergren/siv v0.0.0-20220507050439-0b757b3aa5f1 // indirect
 	github.com/ericlagergren/subtle v0.0.0-20220507045147-890d697da010 // indirect
+	github.com/flytam/filenamify v1.2.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/gaukas/godicttls v0.0.4 // indirect
+	github.com/go-chi/chi/v5 v5.0.11 // indirect
+	github.com/go-chi/render v1.0.3 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
 	github.com/go-task/slim-sprig v0.0.0-20230315185526-52ccab3ef572 // indirect
 	github.com/gobwas/httphead v0.1.0 // indirect
@@ -37,7 +42,6 @@ require (
 	github.com/hashicorp/yamux v0.1.1 // indirect
 	github.com/insomniacslk/dhcp v0.0.0-20231206064809-8c70d406f6d2 // indirect
 	github.com/josharian/native v1.1.0 // indirect
-	github.com/jpillora/backoff v1.0.0 // indirect
 	github.com/klauspost/compress v1.17.4 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.6 // indirect
 	github.com/lufia/plan9stats v0.0.0-20211012122336-39d0f177ccd0 // indirect
@@ -49,10 +53,10 @@ require (
 	github.com/metacubex/gvisor v0.0.0-20231209122014-3e43224c7bbc // indirect
 	github.com/metacubex/mihomo v1.7.0 // indirect
 	github.com/metacubex/quic-go v0.41.1-0.20240120014142-a02f4a533d4a // indirect
-	github.com/metacubex/sing-quic v0.0.0-20240122125415-d6eb83bc6ec4 // indirect
+	github.com/metacubex/sing-quic v0.0.0-20240130040922-cbe613c88f20 // indirect
 	github.com/metacubex/sing-shadowsocks v0.2.6 // indirect
 	github.com/metacubex/sing-shadowsocks2 v0.2.0 // indirect
-	github.com/metacubex/sing-tun v0.2.0 // indirect
+	github.com/metacubex/sing-tun v0.2.1-0.20240130042529-1f983547e9d4 // indirect
 	github.com/metacubex/sing-vmess v0.1.9-0.20231207122118-72303677451f // indirect
 	github.com/metacubex/sing-wireguard v0.0.0-20231209125515-0594297f7232 // indirect
 	github.com/miekg/dns v1.1.57 // indirect

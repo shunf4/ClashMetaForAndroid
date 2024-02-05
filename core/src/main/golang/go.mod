@@ -21,7 +21,9 @@ require (
 	github.com/RyuaNerin/go-krypto v1.2.4 // indirect
 	github.com/Yawning/aez v0.0.0-20211027044916-e49e68abd344 // indirect
 	github.com/aead/chacha20 v0.0.0-20180709150244-8b13a72661da // indirect
+	github.com/ajg/form v1.5.1 // indirect
 	github.com/andybalholm/brotli v1.0.6 // indirect
+	github.com/aohorodnyk/mimeheader v0.0.6 // indirect
 	github.com/bahlo/generic-list-go v0.2.0 // indirect
 	github.com/buger/jsonparser v1.1.1 // indirect
 	github.com/cilium/ebpf v0.12.3 // indirect
@@ -31,8 +33,11 @@ require (
 	github.com/ericlagergren/polyval v0.0.0-20220411101811-e25bc10ba391 // indirect
 	github.com/ericlagergren/siv v0.0.0-20220507050439-0b757b3aa5f1 // indirect
 	github.com/ericlagergren/subtle v0.0.0-20220507045147-890d697da010 // indirect
+	github.com/flytam/filenamify v1.2.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/gaukas/godicttls v0.0.4 // indirect
+	github.com/go-chi/chi/v5 v5.0.10 // indirect
+	github.com/go-chi/render v1.0.3 // indirect
 	github.com/go-ole/go-ole v1.3.0 // indirect
 	github.com/go-task/slim-sprig v0.0.0-20230315185526-52ccab3ef572 // indirect
 	github.com/gobwas/httphead v0.1.0 // indirect

@@ -34,7 +34,7 @@ subprojects {
     extensions.configure<BaseExtension> {
         defaultConfig {
             if (isApp) {
-                applicationId = "com.github.metacubex.clash"
+                applicationId = "com.github.metacubex.clash.shunf4mod"
             }
 
             minSdk = 21
@@ -116,7 +116,7 @@ subprojects {
                         keystore.inputStream().use(this::load)
                     }
 
-                    storeFile = rootProject.file("release.keystore")
+                    storeFile = rootProject.file(prop.getProperty("keystore.path")!!)
                     storePassword = prop.getProperty("keystore.password")!!
                     keyAlias = prop.getProperty("key.alias")!!
                     keyPassword = prop.getProperty("key.password")!!
