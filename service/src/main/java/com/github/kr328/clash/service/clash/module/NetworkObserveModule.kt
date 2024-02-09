@@ -7,10 +7,14 @@ import androidx.core.content.getSystemService
 import com.github.kr328.clash.common.log.Log
 import com.github.kr328.clash.core.Clash
 import com.github.kr328.clash.service.util.resolvePrimaryDns
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.trySendBlocking
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.coroutines.coroutineContext
 
 class NetworkObserveModule(service: Service) : Module<Network?>(service) {
     private data class Action(val type: Type, val network: Network) {
@@ -77,12 +81,36 @@ class NetworkObserveModule(service: Service) : Module<Network?>(service) {
 
                 Log.d("DNS: $dns")
 
-                if (resolveDefault) {
-                    val network = networks.maxByOrNull { net ->
-                        connectivity.getNetworkCapabilities(net)?.let { cap ->
-                            TRANSPORT_PRIORITY.indexOfFirst { cap.hasTransport(it) }
-                        } ?: -1
+                // again
+                with(CoroutineScope(coroutineContext)) {
+                    launch {
+                        delay(2000L)
+                        val dns = networks.mapNotNull {
+                            connectivity.resolvePrimaryDns(it)
+                        }
+
+                        Clash.notifyDnsChanged(dns)
                     }
+                }
+
+                if (resolveDefault) {
+                    val networkTriple = networks.map { net ->
+                        connectivity.getNetworkCapabilities(net)?.let { cap ->
+                            val transportIndex =
+                                TRANSPORT_PRIORITY.indexOfFirst { cap.hasTransport(it) }
+                            var currTransport: Int? = null
+                            if (transportIndex >= 0) {
+                                currTransport = TRANSPORT_PRIORITY[transportIndex]
+                            }
+                            Triple(net, transportIndex, currTransport)
+                        } ?: Triple(net, -1, null)
+                    }.maxByOrNull { it.second }
+
+                    val network = networkTriple?.first
+                    val transport = networkTriple?.third ?: -1
+
+                    Log.d("Refresh reverse with transport: $transport")
+                    Clash.refreshReverse(transport)
 
                     enqueueEvent(network)
 

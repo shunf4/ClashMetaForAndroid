@@ -88,6 +88,13 @@ Java_com_github_kr328_clash_core_bridge_Bridge_nativeNotifyDnsChanged(JNIEnv *en
 }
 
 JNIEXPORT void JNICALL
+Java_com_github_kr328_clash_core_bridge_Bridge_nativeRefreshReverse(JNIEnv *env, jobject thiz, jint androidTypeTransport) {
+    TRACE_METHOD();
+
+    refreshReverse(androidTypeTransport);
+}
+
+JNIEXPORT void JNICALL
 Java_com_github_kr328_clash_core_bridge_Bridge_nativeNotifyTimeZoneChanged(JNIEnv *env, jobject thiz,
                                                                            jstring name, jint offset) {
     TRACE_METHOD();

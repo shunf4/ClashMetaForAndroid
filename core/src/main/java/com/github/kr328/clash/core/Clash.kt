@@ -52,6 +52,10 @@ object Clash {
         Bridge.nativeNotifyDnsChanged(dns.joinToString(separator = ","))
     }
 
+    fun refreshReverse(androidTypeTransport: Int) {
+        Bridge.nativeRefreshReverse(androidTypeTransport)
+    }
+
     fun notifyTimeZoneChanged(name: String, offset: Int) {
         Bridge.nativeNotifyTimeZoneChanged(name, offset)
     }

@@ -36,6 +36,11 @@ func notifyDnsChanged(dnsList C.c_string) {
 	app.NotifyDnsChanged(d)
 }
 
+//export refreshReverse
+func refreshReverse(androidTypeTransport C.int) {
+	app.RefreshReverse(int(androidTypeTransport))
+}
+
 //export notifyInstalledAppsChanged
 func notifyInstalledAppsChanged(uids C.c_string) {
 	u := C.GoString(uids)
@@ -47,7 +52,6 @@ func notifyInstalledAppsChanged(uids C.c_string) {
 func notifyTimeZoneChanged(name C.c_string, offset C.int) {
 	app.NotifyTimeZoneChanged(C.GoString(name), int(offset))
 }
-
 
 //export queryConfiguration
 func queryConfiguration() *C.char {

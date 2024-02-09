@@ -9,6 +9,7 @@ import (
 	"github.com/dlclark/regexp2"
 
 	"cfa/native/common"
+
 	C "github.com/metacubex/mihomo/constant"
 	"github.com/metacubex/mihomo/log"
 
@@ -22,6 +23,7 @@ var processors = []processor{
 	patchProfile,
 	patchDns,
 	patchProviders,
+	patchReverse,
 	validConfig,
 }
 
@@ -49,6 +51,16 @@ func patchGeneral(cfg *config.RawConfig, _ string) error {
 func patchProfile(cfg *config.RawConfig, _ string) error {
 	cfg.Profile.StoreSelected = false
 	cfg.Profile.StoreFakeIP = true
+
+	return nil
+}
+
+func patchReverse(cfg *config.RawConfig, _ string) error {
+	if cfg.ReverseStopAfterErrorRetryCount <= 0 {
+		cfg.ReverseStopAfterErrorRetryCount = 10
+	}
+
+	cfg.ClashrayNetDisableHostsTunnels = true
 
 	return nil
 }
