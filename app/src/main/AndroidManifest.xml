@@ -33,6 +33,7 @@
         android:supportsRtl="true"
         android:theme="@style/BootstrapTheme"
         tools:ignore="GoogleAppIndexingWarning"
+        android:requestLegacyExternalStorage="true"
         tools:targetApi="N">
         <meta-data
             android:name="releaseName"
