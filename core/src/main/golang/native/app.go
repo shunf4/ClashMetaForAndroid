@@ -10,6 +10,7 @@ import (
 	"cfa/native/app"
 
 	"github.com/metacubex/mihomo/log"
+	"github.com/metacubex/mihomo/tunnel"
 )
 
 func openRemoteContent(url string) (int, error) {
@@ -58,6 +59,26 @@ func queryConfiguration() *C.char {
 	response := &struct{}{}
 
 	return marshalJson(&response)
+}
+
+//export registerClashraySendReceiveCallback
+func registerClashraySendReceiveCallback(remote unsafe.Pointer) {
+	go func(remote unsafe.Pointer) {
+		sub := tunnel.ClashraySendSubscribe()
+		defer tunnel.ClashraySendUnsubscribe(sub)
+
+		for msg := range sub {
+			if C.clashray_send_received(remote, marshalJson(msg)) != 0 {
+				C.release_object(remote)
+
+				log.Debugln("Clashray Send subscriber closed")
+
+				break
+			}
+		}
+	}(remote)
+
+	log.Infoln("[APP] Subscribing at Clashray Send")
 }
 
 func init() {

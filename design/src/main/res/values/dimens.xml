@@ -41,7 +41,7 @@
     <dimen name="item_tailing_component_size">30dp</dimen>
     <dimen name="item_tailing_margin">17.5dp</dimen>
     <dimen name="item_padding_vertical">16dp</dimen>
-    <dimen name="item_text_margin">5dp</dimen>
+    <dimen name="item_text_margin">3dp</dimen>
     <dimen name="item_midden_margin">10dp</dimen>
 
     <!-- Large Card -->
@@ -82,6 +82,6 @@
     <dimen name="about_text_margin">15dp</dimen>
 
     <!-- Logcat Design -->
-    <dimen name="logcat_padding_vertical">12dp</dimen>
-    <dimen name="logcat_padding_horizontal">12dp</dimen>
+    <dimen name="logcat_padding_vertical">2dp</dimen>
+    <dimen name="logcat_padding_horizontal">4dp</dimen>
 </resources>

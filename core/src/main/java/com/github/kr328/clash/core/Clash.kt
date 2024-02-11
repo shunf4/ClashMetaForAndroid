@@ -8,6 +8,7 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.ReceiveChannel
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.jsonPrimitive
 import java.io.File
 import java.net.InetSocketAddress
@@ -228,6 +229,16 @@ object Clash {
             Bridge.nativeSubscribeLogcat(object : LogcatInterface {
                 override fun received(jsonPayload: String) {
                     trySend(Json.decodeFromString(LogMessage.serializer(), jsonPayload))
+                }
+            })
+        }
+    }
+
+    fun subscribeClashraySend(): ReceiveChannel<JsonElement> {
+        return Channel<JsonElement>(32).apply {
+            Bridge.nativeRegisterClashraySendReceiveCallback(object : ClashraySendReceiveCallbackInterface {
+                override fun received(jsonPayload: String) {
+                    trySend(Json.parseToJsonElement(jsonPayload))
                 }
             })
         }

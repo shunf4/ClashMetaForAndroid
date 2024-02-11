@@ -13,6 +13,8 @@ void (*fetch_complete_func)(void *fetch_callback, const char *error);
 
 int (*logcat_received_func)(void *logcat_interface, const char *payload);
 
+int (*clashray_send_received_func)(void *callback, const char *payload);
+
 int (*open_content_func)(const char *url, char *error, int error_length);
 
 void (*release_object_func)(void *obj);
@@ -62,6 +64,16 @@ int logcat_received(void *logcat_interface, char *payload) {
     TRACE_METHOD();
 
     int result = logcat_received_func(logcat_interface, payload);
+
+    free(payload);
+
+    return result;
+}
+
+int clashray_send_received(void *callback, char *payload) {
+    TRACE_METHOD();
+
+    int result = clashray_send_received_func(callback, payload);
 
     free(payload);
 

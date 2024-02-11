@@ -47,6 +47,6 @@ class LogcatCache {
     }
 
     companion object {
-        const val CAPACITY = 128
+        const val CAPACITY = 2048
     }
 }

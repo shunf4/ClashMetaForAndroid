@@ -24,9 +24,11 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/logLevel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="start|center_vertical"
+                android:textSize="9sp"
                 android:text="@{message.level.name()}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                 android:textColor="?colorControlActivated" />
@@ -35,16 +37,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="end|center_vertical"
+                android:textSize="9sp"
                 android:text="@{I18nKt.format(message.time, context, false, true)}"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
                 android:textColor="?colorControlActivated" />
         </LinearLayout>
 
         <TextView
+            android:id="@+id/logContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/item_text_margin"
             android:text="@{message.message}"
+            android:textSize="11.2sp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
     </LinearLayout>
 </layout>

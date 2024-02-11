@@ -340,12 +340,23 @@ Java_com_github_kr328_clash_core_bridge_Bridge_nativeSubscribeLogcat(JNIEnv *env
     subscribeLogcat(_callback);
 }
 
+JNIEXPORT void JNICALL
+Java_com_github_kr328_clash_core_bridge_Bridge_nativeRegisterClashraySendReceiveCallback(JNIEnv *env, jobject thiz,
+                                                                     jobject callback) {
+    TRACE_METHOD();
+
+    jobject _callback = new_global(callback);
+
+    registerClashraySendReceiveCallback(_callback);
+}
+
 
 static jmethodID m_tun_interface_mark_socket;
 static jmethodID m_tun_interface_query_socket_uid;
 static jmethodID m_completable_complete;
 static jmethodID m_completable_complete_exceptionally;
 static jmethodID m_logcat_interface_received;
+static jmethodID m_clashray_send_receive_callback_interface_received;
 static jmethodID m_clash_exception;
 static jmethodID m_fetch_callback_report;
 static jmethodID m_fetch_callback_complete;
@@ -449,6 +460,23 @@ static int call_logcat_interface_received_impl(void *callback, const char *paylo
     return 0;
 }
 
+static int call_clashray_send_receive_callback_interface_received_impl(void *callback, const char *payload) {
+    TRACE_METHOD();
+
+    ATTACH_JNI();
+
+    (*env)->CallVoidMethod(env,
+                           (jobject) callback,
+                           (jmethodID) m_clashray_send_receive_callback_interface_received,
+                           (jstring) new_string(payload));
+
+    if (jni_catch_exception(env)) {
+        return 1;
+    }
+
+    return 0;
+}
+
 static int open_content_impl(const char *url, char *error, int error_length) {
     TRACE_METHOD();
 
@@ -504,6 +532,7 @@ JNI_OnLoad(JavaVM *vm, void *reserved) {
     jclass c_completable = find_class("kotlinx/coroutines/CompletableDeferred");
     jclass c_fetch_callback = find_class("com/github/kr328/clash/core/bridge/FetchCallback");
     jclass c_logcat_interface = find_class("com/github/kr328/clash/core/bridge/LogcatInterface");
+    jclass c_clashray_send_receive_callback_interface = find_class("com/github/kr328/clash/core/bridge/ClashraySendReceiveCallbackInterface");
     jclass _c_clash_exception = find_class("com/github/kr328/clash/core/bridge/ClashException");
     jclass _c_content = find_class("com/github/kr328/clash/core/bridge/Content");
     jclass c_throwable = find_class("java/lang/Throwable");
@@ -523,6 +552,9 @@ JNI_OnLoad(JavaVM *vm, void *reserved) {
                                                        "(Ljava/lang/Throwable;)Z");
     m_logcat_interface_received = find_method(c_logcat_interface, "received",
                                               "(Ljava/lang/String;)V");
+    m_clashray_send_receive_callback_interface_received = find_method(c_clashray_send_receive_callback_interface, "received",
+                                                "(Ljava/lang/String;)V");
+
     m_clash_exception = find_method(_c_clash_exception, "<init>",
                                     "(Ljava/lang/String;)V");
     m_get_message = find_method(c_throwable, "getMessage",
@@ -544,6 +576,7 @@ JNI_OnLoad(JavaVM *vm, void *reserved) {
     fetch_report_func = &call_fetch_callback_report_impl;
     fetch_complete_func = &call_fetch_callback_complete_impl;
     logcat_received_func = &call_logcat_interface_received_impl;
+    clashray_send_received_func = &call_clashray_send_receive_callback_interface_received_impl;
     open_content_func = &open_content_impl;
     release_object_func = &release_jni_object_impl;
 

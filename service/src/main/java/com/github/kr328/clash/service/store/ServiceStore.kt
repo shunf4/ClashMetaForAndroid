@@ -43,7 +43,7 @@ class ServiceStore(context: Context) {
 
     var systemProxy by store.boolean(
         key = "system_proxy",
-        defaultValue = true
+        defaultValue = false
     )
 
     var allowBypass by store.boolean(
