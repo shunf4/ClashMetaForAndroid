@@ -60,7 +60,7 @@ func patchReverse(cfg *config.RawConfig, _ string) error {
 		cfg.ReverseStopAfterErrorRetryCount = 10
 	}
 
-	cfg.ClashrayNetDisableHostsTunnels = true
+	cfg.ClashrayNetVisitorTunnelNoHostsNorListening = true
 
 	return nil
 }
