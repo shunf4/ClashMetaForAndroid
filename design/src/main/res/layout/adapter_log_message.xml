@@ -47,7 +47,7 @@
             android:id="@+id/logContent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/item_text_margin"
+            android:layout_marginTop="-0.1dp"
             android:text="@{message.message}"
             android:textSize="11.2sp"
             android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />

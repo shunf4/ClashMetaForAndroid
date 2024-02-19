@@ -9,6 +9,7 @@ import (
 	"gopkg.in/yaml.v2"
 
 	"cfa/native/app"
+
 	"github.com/metacubex/mihomo/log"
 
 	"github.com/metacubex/mihomo/config"
@@ -60,6 +61,10 @@ func Parse(rawConfig *config.RawConfig) (*config.Config, error) {
 }
 
 func Load(path string) error {
+	log.Infoln("==================")
+	log.Infoln("Loading real config")
+	log.Infoln("==================")
+
 	rawCfg, err := UnmarshalAndPatch(path)
 	if err != nil {
 		log.Errorln("Load %s: %s", path, err.Error())
@@ -80,16 +85,26 @@ func Load(path string) error {
 
 	app.ApplySubtitlePattern(rawCfg.ClashForAndroid.UiSubtitlePattern)
 
+	log.Infoln("==================")
+	log.Infoln("Done loading real config")
+	log.Infoln("==================")
+
 	runtime.GC()
 
 	return nil
 }
 
 func LoadDefault() {
+	log.Warnln("==================")
+	log.Warnln("Loading default config (resetting)")
+	log.Warnln("==================")
 	cfg, err := config.Parse([]byte{})
 	if err != nil {
 		panic(err.Error())
 	}
 
 	executor.ApplyConfig(cfg, true)
+	log.Warnln("==================")
+	log.Warnln("Done loading default config (resetting)")
+	log.Warnln("==================")
 }
