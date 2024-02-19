@@ -7,6 +7,7 @@ import androidx.core.content.getSystemService
 import com.github.kr328.clash.common.log.Log
 import com.github.kr328.clash.core.Clash
 import com.github.kr328.clash.service.util.resolvePrimaryDns
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.NonCancellable
 import kotlinx.coroutines.channels.Channel
@@ -41,10 +42,12 @@ class NetworkObserveModule(service: Service) : Module<Network?>(service) {
             actions.trySendBlocking(Action(Action.Type.Changed, network))
         }
     }
+    private var debouncedNetworkRefreshJob: Job? = null
 
     override suspend fun run() {
         try {
             connectivity.registerNetworkCallback(request, callback)
+            connectivity.requestNetwork(request, callback, 1000)
         } catch (e: Exception) {
             Log.w("Observe network failed: $e", e)
 
@@ -73,45 +76,42 @@ class NetworkObserveModule(service: Service) : Module<Network?>(service) {
                     }
                 }
 
-                val dns = networks.mapNotNull {
-                    connectivity.resolvePrimaryDns(it)
-                }
-
-                Clash.notifyDnsChanged(dns)
-
-                Log.d("DNS: $dns")
-
-                // again
-                with(CoroutineScope(coroutineContext)) {
-                    launch {
-                        delay(2000L)
-                        val dns = networks.mapNotNull {
-                            connectivity.resolvePrimaryDns(it)
+                val networkTriple = networks.map { net ->
+                    connectivity.getNetworkCapabilities(net)?.let { cap ->
+                        val transportIndex =
+                            TRANSPORT_PRIORITY.indexOfFirst { cap.hasTransport(it) }
+                        var currTransport: Int? = null
+                        if (transportIndex >= 0) {
+                            currTransport = TRANSPORT_PRIORITY[transportIndex]
                         }
+                        Triple(net, transportIndex, currTransport)
+                    } ?: Triple(net, -1, null)
+                }.maxByOrNull { it.second }
+
+                val network = networkTriple?.first
+                val transport = networkTriple?.third ?: -1
+                
+                with(CoroutineScope(coroutineContext)) {
+                    debouncedNetworkRefreshJob?.cancel()
+                    debouncedNetworkRefreshJob = launch {
+                        delay(1000L)
+                        // val dns = networks.mapNotNull {
+                        //     connectivity.resolvePrimaryDns(it)
+                        // }
+                        val dns = listOf(networkTriple).mapNotNull { it?.first }.flatMap { connectivity.resolvePrimaryDns(it) }.mapNotNull { it }
 
                         Clash.notifyDnsChanged(dns)
+
+                        Log.d("DNS: $dns")
+
+                        if (resolveDefault) {
+                            Log.d("Refresh reverse with transport: $transport")
+                            Clash.refreshReverse(transport)
+                        }
                     }
                 }
 
                 if (resolveDefault) {
-                    val networkTriple = networks.map { net ->
-                        connectivity.getNetworkCapabilities(net)?.let { cap ->
-                            val transportIndex =
-                                TRANSPORT_PRIORITY.indexOfFirst { cap.hasTransport(it) }
-                            var currTransport: Int? = null
-                            if (transportIndex >= 0) {
-                                currTransport = TRANSPORT_PRIORITY[transportIndex]
-                            }
-                            Triple(net, transportIndex, currTransport)
-                        } ?: Triple(net, -1, null)
-                    }.maxByOrNull { it.second }
-
-                    val network = networkTriple?.first
-                    val transport = networkTriple?.third ?: -1
-
-                    Log.d("Refresh reverse with transport: $transport")
-                    Clash.refreshReverse(transport)
-
                     enqueueEvent(network)
 
                     Log.d("Network: $network of $networks")
