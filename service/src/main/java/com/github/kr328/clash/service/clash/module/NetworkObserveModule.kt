@@ -43,6 +43,9 @@ class NetworkObserveModule(service: Service) : Module<Network?>(service) {
         }
     }
     private var debouncedNetworkRefreshJob: Job? = null
+    private var debouncedNetworkRefreshLastReducedDns: List<String>? = null
+    private var debouncedNetworkRefreshLastReducedResolveDefault: Boolean? = null
+    private var debouncedNetworkRefreshLastReducedTransport: Int? = null
 
     override suspend fun run() {
         try {
@@ -94,20 +97,31 @@ class NetworkObserveModule(service: Service) : Module<Network?>(service) {
                 with(CoroutineScope(coroutineContext)) {
                     debouncedNetworkRefreshJob?.cancel()
                     debouncedNetworkRefreshJob = launch {
+                        debouncedNetworkRefreshLastReducedResolveDefault = debouncedNetworkRefreshLastReducedResolveDefault?.let {
+                            it or resolveDefault
+                        } ?: resolveDefault
+                        debouncedNetworkRefreshLastReducedTransport = transport
+
                         delay(1000L)
+
                         // val dns = networks.mapNotNull {
                         //     connectivity.resolvePrimaryDns(it)
                         // }
                         val dns = listOf(networkTriple).mapNotNull { it?.first }.flatMap { connectivity.resolvePrimaryDns(it) }.mapNotNull { it }
+                        debouncedNetworkRefreshLastReducedDns = dns
 
-                        Clash.notifyDnsChanged(dns)
+                        debouncedNetworkRefreshLastReducedDns?.let { Clash.notifyDnsChanged(it) }
 
-                        Log.d("DNS: $dns")
+                        Log.d("DNS: $debouncedNetworkRefreshLastReducedDns")
 
-                        if (resolveDefault) {
-                            Log.d("Refresh reverse with transport: $transport")
-                            Clash.refreshReverse(transport)
+                        if (debouncedNetworkRefreshLastReducedResolveDefault ?: false) {
+                            Log.d("Refresh reverse with transport: $debouncedNetworkRefreshLastReducedTransport")
+                            debouncedNetworkRefreshLastReducedTransport?.let { Clash.refreshReverse(it) }
                         }
+
+                        debouncedNetworkRefreshLastReducedDns = null
+                        debouncedNetworkRefreshLastReducedResolveDefault = null
+                        debouncedNetworkRefreshLastReducedTransport = null
                     }
                 }
 
