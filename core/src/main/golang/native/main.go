@@ -9,6 +9,7 @@ import "C"
 
 import (
 	"runtime"
+	// rpprof "runtime/pprof"
 
 	"cfa/native/config"
 	"cfa/native/delegate"
@@ -37,6 +38,8 @@ func reset() {
 	config.LoadDefault()
 	tunnel.ResetStatistic()
 	tunnel.CloseAllConnections()
+
+	// rpprof.StopCPUProfile()
 
 	runtime.GC()
 }

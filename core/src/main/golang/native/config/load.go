@@ -2,9 +2,13 @@ package config
 
 import (
 	"io/ioutil"
+	// "os"
 	P "path"
 	"runtime"
+
+	// "runtime/pprof"
 	"strings"
+	// "time"
 
 	"gopkg.in/yaml.v2"
 
@@ -64,6 +68,12 @@ func Load(path string) error {
 	log.Infoln("==================")
 	log.Infoln("Loading real config")
 	log.Infoln("==================")
+
+	// f, err1 := os.Create("/data/data/com.github.metacubex.clash.shunf4mod.meta/cache/cpuprof_" + time.Now().Format("2006-01-02T15_04_05Z070000") + ".txt")
+	// if err1 != nil {
+	// 	panic(err1)
+	// }
+	// pprof.StartCPUProfile(f)
 
 	rawCfg, err := UnmarshalAndPatch(path)
 	if err != nil {
