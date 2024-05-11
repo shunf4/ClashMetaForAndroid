@@ -116,6 +116,7 @@
     <string name="vpn_service_options">VpnService Options</string>
     <string name="bypass_private_network">Bypass Private Network</string>
     <string name="bypass_private_network_summary">Bypass private network addresses</string>
+    <string name="clashrayNetAdditionalAddrSuffixSummary">clashrayNetAdditionalAddrSuffix</string>
     <string name="dns_hijacking">DNS Hijacking</string>
     <string name="dns_hijacking_summary">Handle all dns packet</string>
     <string name="block_loopback">Block Loopback</string>

@@ -20,6 +20,17 @@ class ServiceStore(context: Context) {
         to = { it?.toString() ?: "" }
     )
 
+    var clashrayNetAdditionalAddrSuffix: String by store.string(
+        key = "clashrayNetAdditionalAddrSuffix",
+        defaultValue = "",
+    )
+
+    var clashrayNetAdditionalAddrSuffixNullable: String?
+        get() = clashrayNetAdditionalAddrSuffix
+        set(value) {
+            clashrayNetAdditionalAddrSuffix = value ?: ""
+        }
+
     var bypassPrivateNetwork: Boolean by store.boolean(
         key = "bypass_private_network",
         defaultValue = true

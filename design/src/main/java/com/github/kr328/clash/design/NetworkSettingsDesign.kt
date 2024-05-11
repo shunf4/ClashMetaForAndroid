@@ -56,6 +56,13 @@ class NetworkSettingsDesign(
 
             category(R.string.vpn_service_options)
 
+            editableText(
+                value = srvStore::clashrayNetAdditionalAddrSuffixNullable,
+                adapter = NullableTextAdapter.String,
+                title = R.string.clashrayNetAdditionalAddrSuffixSummary,
+                empty = R.string.disabled,
+            )
+
             switch(
                 value = srvStore::bypassPrivateNetwork,
                 title = R.string.bypass_private_network,

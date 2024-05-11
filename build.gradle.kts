@@ -7,6 +7,7 @@ import java.util.*
 
 buildscript {
     repositories {
+        mavenLocal()
         mavenCentral()
         google()
         maven("https://maven.kr328.app/releases")
@@ -22,6 +23,7 @@ buildscript {
 
 subprojects {
     repositories {
+        mavenLocal()
         mavenCentral()
         google()
         maven("https://maven.kr328.app/releases")
