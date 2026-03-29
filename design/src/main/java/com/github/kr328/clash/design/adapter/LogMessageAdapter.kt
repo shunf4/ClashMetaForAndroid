@@ -26,7 +26,7 @@ class LogMessageAdapter(
         )
     }
 
-    private val colorPrimary = context.resolveThemedColor(R.attr.colorPrimary)
+    private val colorPrimary = context.resolveThemedColor(androidx.appcompat.R.attr.colorPrimary)
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
         val current = messages[position]

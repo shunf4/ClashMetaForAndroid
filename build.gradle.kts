@@ -60,8 +60,8 @@ subprojects {
             minSdk = 21
             targetSdk = 35
 
-            versionName = "2.11.24"
-            versionCode = 211024
+            versionName = "2.11.24_vcodepin210000"
+            versionCode = 210000
 
             resValue("string", "release_name", "v$versionName")
             resValue("integer", "release_code", "$versionCode")
@@ -114,7 +114,9 @@ subprojects {
                 resValue("string", "application_name", "@string/application_name_alpha")
 
                 if (isApp && !removeSuffix) {
-                    applicationIdSuffix = ".alpha"
+                    // applicationIdSuffix = ".alpha"
+                    // shunf4: let's keep it same
+                    applicationIdSuffix = ".meta"
                 }
             }
 

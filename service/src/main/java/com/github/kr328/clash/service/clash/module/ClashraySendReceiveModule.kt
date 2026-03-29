@@ -1,5 +1,7 @@
 package com.github.kr328.clash.service.clash.module
 
+import android.Manifest
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.app.Service
 import android.content.BroadcastReceiver
@@ -8,12 +10,14 @@ import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
 import android.provider.DocumentsContract
 import android.webkit.MimeTypeMap
 import android.widget.Toast
+import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
@@ -178,6 +182,14 @@ class ClashraySendReceiveModule(service: Service) : Module<Unit>(service) {
             while (true) {
                 select<Unit> {
                     clashraySendReceive.onReceive {
+                        if (ActivityCompat.checkSelfPermission(
+                                service,
+                                Manifest.permission.POST_NOTIFICATIONS
+                            ) != PackageManager.PERMISSION_GRANTED
+                        ) {
+                            // request permission?
+                            return@onReceive
+                        }
                         NotificationManagerCompat.from(service).notify(UndefinedIds.next(), makeNotiBuilder(it).build())
                     }
                 }
