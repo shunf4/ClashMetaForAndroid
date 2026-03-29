@@ -17,6 +17,7 @@ data class Proxy(
     enum class Type(val group: Boolean) {
         Direct(false),
         Reject(false),
+        RejectDrop(false),
         Compatible(false),
         Pass(false),
 
@@ -32,6 +33,13 @@ data class Proxy(
         Hysteria2(false),
         Tuic(false),
         WireGuard(false),
+        Dns(false),
+        Ssh(false),
+        Mieru(false),
+        AnyTLS(false),
+        Sudoku(false),
+        Masque(false),
+        TrustTunnel(false),
 
 
         Relay(true),

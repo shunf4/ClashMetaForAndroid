@@ -32,7 +32,15 @@ Feature of [Clash.Meta](https://github.com/MetaCubeX/Clash.Meta)
    sdk.dir=/path/to/android-sdk
    ```
 
-4. Create `signing.properties` in project root with
+4. (Optional) Custom app package name. Add the following configuration to `local.properties`.
+
+   ```properties
+   # config your ownn applicationId, or it will be 'com.github.metacubex.clash'
+   custom.application.id=com.my.compile.clash
+   # remove application id suffix, or the applicaion id will be 'com.github.metacubex.clash.alpha'
+   remove.suffix=true
+
+5. Create `signing.properties` in project root with
 
    ```properties
    keystore.path=/path/to/keystore/file
@@ -41,9 +49,10 @@ Feature of [Clash.Meta](https://github.com/MetaCubeX/Clash.Meta)
    key.password=<key password>
    ```
 
-5. Build
+6. Build
 
    ```bash
+   # ./gradlew app:assembleAlphaRelease
    ./build.sh
    ```
 
@@ -60,7 +69,7 @@ APP package name is `com.github.metacubex.clash.meta`
 - Import a profile
   - URL Scheme `clash://install-config?url=<encoded URI>` or `clashmeta://install-config?url=<encoded URI>`
 
-### Contribution and Project Maintainance
+### Contribution and Project Maintenance
 
 #### Meta Kernel
 
@@ -68,7 +77,7 @@ APP package name is `com.github.metacubex.clash.meta`
   - If you want to contribute to the kernel, make PRs to `Alpha` branch of the Meta kernel repository.
   - If you want to contribute Android-specific patches to the kernel, make PRs to  `android-open` branch of the Meta kernel repository.
 
-#### Maintainance
+#### Maintenance
 
 - When `MetaCubeX/Clash.Meta` kernel is updated to a new version, the `Update Dependencies` actions in this repo will be triggered automatically.
   - It will pull the new version of the meta kernel, update all the golang dependencies, and create a PR without manual intervention.

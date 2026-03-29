@@ -1,6 +1,13 @@
 package com.github.kr328.clash
 
+import android.content.pm.PackageManager
+import android.os.Build
+import android.os.Bundle
+import android.os.PersistableBundle
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.github.kr328.clash.common.util.intent
 import com.github.kr328.clash.common.util.ticker
 import com.github.kr328.clash.design.MainDesign
@@ -15,6 +22,7 @@ import kotlinx.coroutines.isActive
 import kotlinx.coroutines.selects.select
 import kotlinx.coroutines.withContext
 import java.util.concurrent.TimeUnit
+import com.github.kr328.clash.design.R
 
 class MainActivity : BaseActivity<MainDesign>() {
     override suspend fun main() {
@@ -51,8 +59,13 @@ class MainActivity : BaseActivity<MainDesign>() {
                             startActivity(ProfilesActivity::class.intent)
                         MainDesign.Request.OpenProviders ->
                             startActivity(ProvidersActivity::class.intent)
-                        MainDesign.Request.OpenLogs ->
-                            startActivity(LogsActivity::class.intent)
+                        MainDesign.Request.OpenLogs -> {
+                            if (LogcatService.running) {
+                                startActivity(LogcatActivity::class.intent)
+                            } else {
+                                startActivity(LogsActivity::class.intent)
+                            }
+                        }
                         MainDesign.Request.OpenSettings ->
                             startActivity(SettingsActivity::class.intent)
                         MainDesign.Request.OpenHelp ->
@@ -129,4 +142,22 @@ class MainActivity : BaseActivity<MainDesign>() {
             packageManager.getPackageInfo(packageName, 0).versionName + "\n" + Bridge.nativeCoreVersion().replace("_", "-")
         }
     }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val requestPermissionLauncher =
+                registerForActivityResult(RequestPermission()
+                ) { isGranted: Boolean ->
+                }
+            if (ContextCompat.checkSelfPermission(
+                    this,
+                    android.Manifest.permission.POST_NOTIFICATIONS
+                ) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissionLauncher.launch(android.Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }
+    }
 }
+
+val mainActivityAlias = "${MainActivity::class.java.name}Alias"

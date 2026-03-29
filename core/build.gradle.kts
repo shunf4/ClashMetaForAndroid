@@ -1,8 +1,6 @@
+import android.databinding.tool.ext.capitalizeUS
 import com.github.kr328.golang.GolangBuildTask
 import com.github.kr328.golang.GolangPlugin
-import java.io.FileOutputStream
-import java.net.URL
-import java.time.Duration
 
 plugins {
     kotlin("android")
@@ -11,15 +9,11 @@ plugins {
     id("golang-android")
 }
 
-val geoipDatabaseUrl =
-    "https://raw.githubusercontent.com/Loyalsoldier/geoip/release/Country.mmdb"
-val geoipInvalidate = Duration.ofDays(7)!!
-val geoipOutput = buildDir.resolve("intermediates/golang_blob")
 val golangSource = file("src/main/golang/native")
 
 golang {
     sourceSets {
-        create("meta-alpha") {
+        create("alpha") {
             tags.set(listOf("foss","with_gvisor","cmfa"))
             srcDir.set(file("src/foss/golang"))
         }
@@ -68,50 +62,17 @@ afterEvaluate {
     }
 }
 
-task("downloadGeoipDatabase") {
-    val databaseFile = geoipOutput.resolve("Country.mmdb")
-    val moduleFile = geoipOutput.resolve("go.mod")
-    val sourceFile = geoipOutput.resolve("blob.go")
+val abis = listOf("arm64-v8a" to "Arm64V8a", "armeabi-v7a" to "ArmeabiV7a", "x86" to "X86", "x86_64" to "X8664")
 
-    val moduleContent = """
-        module "cfa/blob"
-    """.trimIndent()
+androidComponents.onVariants { variant ->
+    val cmakeName = if (variant.buildType == "debug") "Debug" else "RelWithDebInfo"
 
-    val sourceContent = """
-        package blob
-        
-        import _ "embed"
-        
-        //go:embed Country.mmdb
-        var GeoipDatabase []byte
-    """.trimIndent()
-
-    outputs.dir(geoipOutput)
-
-    onlyIf {
-        System.currentTimeMillis() - databaseFile.lastModified() > geoipInvalidate.toMillis()
-    }
-
-    doLast {
-        geoipOutput.mkdirs()
-
-        moduleFile.writeText(moduleContent)
-        sourceFile.writeText(sourceContent)
-
-        URL(geoipDatabaseUrl).openConnection().getInputStream().use { input ->
-            FileOutputStream(databaseFile).use { output ->
-                input.copyTo(output)
+    abis.forEach { (abi, goAbi) ->
+        tasks.configureEach {
+            if (name.startsWith("buildCMake$cmakeName[$abi]")) {
+                dependsOn("externalGolangBuild${variant.name.capitalizeUS()}$goAbi")
+                println("Set up dependency: $name -> externalGolangBuild${variant.name.capitalizeUS()}$goAbi")
             }
-        }
-    }
-}
-
-afterEvaluate {
-    val downloadTask = tasks["downloadGeoipDatabase"]
-
-    tasks.forEach {
-        if (it.name.startsWith("externalGolangBuild")) {
-            it.dependsOn(downloadTask)
         }
     }
 }

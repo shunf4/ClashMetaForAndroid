@@ -1,6 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="PluralsCandidate">
-    <string name="launch_name">MetaCubeRivX</string>
-    <string name="application_name">MetaCubeRivX for Android</string>
+    <string name="launch_name_meta">MetaCubeRivX</string>
+    <string name="launch_name_alpha">MetaCubeRivXAlpha</string>
+    <string name="application_name_meta">MetaCubeRivX for Android</string>
+    <string name="application_name_alpha">MetaCubeRivXAlpha for Android</string>
 
     <string name="stopped">Stopped</string>
     <string name="tap_to_start">Tap to start</string>
@@ -39,7 +41,9 @@
     <string name="file">File</string>
     <string name="import_from_file">Import from File</string>
     <string name="url">URL</string>
+    <string name="qr" translatable="false">QR Code</string>
     <string name="import_from_url">Import from URL</string>
+    <string name="import_from_qr">Import from QR Code</string>
     <string name="external">External</string>
     <string name="format_type_unsaved">%s (Unsaved)</string>
 
@@ -123,6 +127,8 @@
     <string name="block_loopback_summary">Block loopback connections</string>
     <string name="allow_bypass">Allow Bypass</string>
     <string name="allow_bypass_summary">Allows all apps to bypass this VPN connection</string>
+    <string name="allow_ipv6">Allow Ipv6</string>
+    <string name="allow_ipv6_summary">Allows ipv6 traffic via VpnService</string>
     <string name="system_proxy">System Proxy</string>
     <string name="system_proxy_summary">Attach http proxy to VpnService</string>
     <string name="access_control_mode">Access Control Mode</string>
@@ -145,9 +151,12 @@
     <string name="mode">Mode</string>
     <string name="log_level">Log Level</string>
     <string name="ipv6">IPv6</string>
+    <string name="external_controller">External Controller</string>
+    <string name="external_controller_tls">External Controller TLS</string>
+    <string name="allow_origins">External Controller Allow Origins</string>
+    <string name="allow_private_network">External Controller Allow Private Network</string>
+    <string name="secret">Secret</string>
     <string name="hosts">Hosts</string>
-    <string name="sideload_geoip">Sideload GEOIP</string>
-    <string name="sideload_geoip_summary">External GEOIP database</string>
     <string name="_new">New</string>
     <string name="value">Value</string>
 
@@ -160,6 +169,7 @@
     <string name="fallback">Fallback Name Server</string>
     <string name="default_name_server">Default Name Server</string>
     <string name="fakeip_filter">Fake-IP Filter</string>
+    <string name="fakeip_filter_mode">Fake-IP Filter Mode</string>
     <string name="geoip_fallback">GeoIP Fallback</string>
     <string name="geoip_fallback_code">GeoIP Fallback Code</string>
     <string name="ipcidr_fallback">IPCIDR Fallback</string>
@@ -181,6 +191,9 @@
 
     <string name="mapping">Real-IP to domain mapping</string>
     <string name="fakeip">Fake-IP to domain mapping</string>
+
+    <string name="blacklist">Black List</string>
+    <string name="whitelist">White List</string>
 
     <string name="off">OFF</string>
     <string name="strict">Strict</string>
@@ -230,6 +243,11 @@
     <string name="always_dark">Always Dark</string>
     <string name="always_light">Always Light</string>
 
+    <string name="tun_stack_mode">Stack Mode</string>
+    <string name="tun_stack_system">System Stack</string>
+    <string name="tun_stack_gvisor">Gvisor Stack</string>
+    <string name="tun_stack_mixed">Mixed Stack</string>
+
     <string name="allow_all_apps">Allow all apps</string>
     <string name="allow_selected_apps">Allow selected apps</string>
     <string name="deny_selected_apps">Deny selected apps</string>
@@ -263,6 +281,7 @@
     <string name="format_provider_type">%1$s(%2$s)</string>
     <string name="rule">Rule</string>
     <string name="http">HTTP</string>
+    <string name="inline">Inline</string>
     <string name="compatible">Compatible</string>
     <string name="format_update_provider_failure">Update %1$s: %2$s</string>
     <string name="update_all">Update All</string>
@@ -289,13 +308,19 @@
 
     <string name="sniffer_setting">Sniffer Setting</string>
     <string name="sniffer">Sniffer</string>
-    <string name="sniffing">Sniffer Mode</string>
+    <string name="force_dns_mapping">Force DNS Mapping</string>
+    <string name="parse_pure_ip">Parse Pure IP</string>
+    <string name="override_destination">Override Destination</string>
     <string name="force_domain">Force Domain</string>
     <string name="skip_domain">Skip Domain</string>
-    <string name="port_whitelist">Port Whitelist</string>
-    <string name="disable_sniffer">Disable Sniffer</string>
-    <string name="sniffer_config">Load Sniffer From Config</string>
-    <string name="sniffer_override">Override Sniffer Config</string>
+    <string name="skip_src_address">Skip Src Address</string>
+    <string name="skip_dst_address">Skip Dst Address</string>
+    <string name="sniff_http_ports">Sniff HTTP Ports</string>
+    <string name="sniff_tls_ports">Sniff TLS Ports</string>
+    <string name="sniff_quic_ports">Sniff QUIC Ports</string>
+    <string name="sniff_http_override_destination">Sniff HTTP Override Destination</string>
+    <string name="sniff_tls_override_destination">Sniff TLS Override Destination</string>
+    <string name="sniff_quic_override_destination">Sniff QUIC Override Destination</string>
 
     <string name="geox_url_setting">GeoX Url Setting</string>
     <string name="geox_geoip">GeoIp Url</string>
@@ -306,9 +331,10 @@
     <string name="geosite_url" translatable="false">https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/release/geosite.dat</string>
     <string name="geox_files" >Geo Files</string>
     <string name="import_geoip_file">Import GeoIP Database</string>
-    <string name="press_to_import">Press to import...</string>
     <string name="import_geosite_file">Import GeoSite Database</string>
     <string name="import_country_file">Import Country Database</string>
+    <string name="import_asn_file">Import ASN Database</string>
+    <string name="press_to_import">Press to import...</string>
     <string name="geofile_import_failed">Import failed</string>
     <string name="geofile_unknown_db_format">Unknown Database format</string>
     <string name="geofile_unknown_db_format_message">Only %1$s are supported</string>
@@ -318,7 +344,18 @@
     <string name="external_control_activity">External Control</string>
     <string name="external_control_started">Clash.Meta service started</string>
     <string name="external_control_stopped">Clash.Meta service stopped</string>
-    <string name="force_dns_mapping">Force DNS Mapping</string>
-    <string name="parse_pure_ip">Parse Pure IP</string>
-    <string name="override_destination">Override Destination</string>
+
+    <string name="hide_app_icon_title">Hide App Icon</string>
+    <string name="hide_app_icon_desc">You can dial *#*#252746382#*#* to open this App</string>
+    <string name="hide_from_recents_title">Hide from Recents</string>
+    <string name="hide_from_recents_desc">Hide app from the Recent apps screen</string>
+    <string name="import_from_qr_no_permission">Camera access is restricted. Please enable it in Settings.</string>
+    <string name="import_from_qr_exception">An unhandled system exception occurred.</string>
+
+    <string name="shortcut_toggle_short">Toggle Clash</string>
+    <string name="shortcut_toggle_long">Toggle Clash service on/off</string>
+    <string name="shortcut_start_short">Start Clash</string>
+    <string name="shortcut_start_long">Start Clash service</string>
+    <string name="shortcut_stop_short">Stop Clash</string>
+    <string name="shortcut_stop_long">Stop Clash service</string>
 </resources>

@@ -19,8 +19,9 @@ Java_com_github_kr328_clash_core_bridge_Bridge_nativeInit(JNIEnv *env, jobject t
 
     scoped_string _home = get_string(home);
     scoped_string _version_name = get_string(version_name);
+    char* _git_version = make_String(GIT_VERSION);
 
-    coreInit(_home, _version_name, sdk_version);
+    coreInit(_home, _version_name, _git_version, sdk_version);
 }
 
 JNIEXPORT void JNICALL
@@ -118,18 +119,20 @@ Java_com_github_kr328_clash_core_bridge_Bridge_nativeNotifyInstalledAppChanged(J
 JNIEXPORT void JNICALL
 Java_com_github_kr328_clash_core_bridge_Bridge_nativeStartTun(JNIEnv *env, jobject thiz,
                                                               jint fd,
+                                                              jstring stack,
                                                               jstring gateway,
                                                               jstring portal,
                                                               jstring dns,
                                                               jobject cb) {
     TRACE_METHOD();
 
+    scoped_string _stack = get_string(stack);
     scoped_string _gateway = get_string(gateway);
     scoped_string _portal = get_string(portal);
     scoped_string _dns = get_string(dns);
     jobject _interface = new_global(cb);
 
-    startTun(fd, _gateway, _portal, _dns, _interface);
+    startTun(fd, _stack, _gateway, _portal, _dns, _interface);
 }
 
 JNIEXPORT void JNICALL
@@ -292,33 +295,6 @@ Java_com_github_kr328_clash_core_bridge_Bridge_nativeClearOverride(JNIEnv *env, 
     TRACE_METHOD();
 
     clearOverride(slot);
-}
-
-JNIEXPORT void JNICALL
-Java_com_github_kr328_clash_core_bridge_Bridge_nativeInstallSideloadGeoip(JNIEnv *env, jobject thiz,
-                                                                          jbyteArray data) {
-    TRACE_METHOD();
-
-    if (data == NULL) {
-        installSideloadGeoip(NULL, 0);
-
-        return;
-    }
-
-    jbyte *bytes = (*env)->GetByteArrayElements(env, data, NULL);
-    int size = (*env)->GetArrayLength(env, data);
-
-    scoped_string err = installSideloadGeoip(bytes, size);
-
-    (*env)->ReleaseByteArrayElements(env, data, bytes, JNI_ABORT);
-
-    if (err != NULL) {
-        (*env)->ThrowNew(
-                env,
-                find_class("com/github/kr328/clash/core/bridge/ClashException"),
-                err
-        );
-    }
 }
 
 JNIEXPORT jstring JNICALL

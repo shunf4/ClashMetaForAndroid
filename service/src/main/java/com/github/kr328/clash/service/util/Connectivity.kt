@@ -4,8 +4,7 @@ import android.net.ConnectivityManager
 import android.net.Network
 import java.net.Inet4Address
 
-fun ConnectivityManager.resolvePrimaryDns(network: Network?): List<String?> {
-    val properties = getLinkProperties(network) ?: return emptyList()
-
+fun ConnectivityManager.resolveDns(network: Network?): List<String> {
+    val properties = getLinkProperties(network) ?: return listOf()
     return properties.dnsServers.sortedBy { if (it is Inet4Address) { 0 } else { 999 } }.mapNotNull { it?.asSocketAddressText(53) }
 }

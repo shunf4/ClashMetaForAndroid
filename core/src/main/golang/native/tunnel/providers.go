@@ -1,5 +1,3 @@
-//go:build premium
-
 package tunnel
 
 import (
@@ -7,7 +5,6 @@ import (
 	"fmt"
 	"time"
 
-	P "github.com/metacubex/mihomo/adapter/provider"
 	"github.com/metacubex/mihomo/constant/provider"
 	"github.com/metacubex/mihomo/log"
 	"github.com/metacubex/mihomo/tunnel"
@@ -22,9 +19,13 @@ type Provider struct {
 	UpdatedAt   int64  `json:"updatedAt"`
 }
 
+type UpdatableProvider interface {
+	UpdatedAt() time.Time
+}
+
 func QueryProviders() []*Provider {
 	r := tunnel.RuleProviders()
-	p := tunnel.ProxyProviders()
+	p := tunnel.Providers()
 
 	providers := make([]provider.Provider, 0, len(r)+len(p))
 
@@ -49,7 +50,7 @@ func QueryProviders() []*Provider {
 	for _, p := range providers {
 		updatedAt := time.Time{}
 
-		if s, ok := p.(P.UpdatableProvider[any]); ok {
+		if s, ok := p.(UpdatableProvider); ok {
 			updatedAt = s.UpdatedAt()
 		}
 
@@ -76,7 +77,7 @@ func UpdateProvider(t string, name string) error {
 
 		err = p.Update()
 	case "Proxy":
-		p := tunnel.ProxyProviders()[name]
+		p := tunnel.Providers()[name]
 		if p == nil {
 			return fmt.Errorf("%s not found", name)
 		}

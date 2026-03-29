@@ -21,6 +21,7 @@ import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
+import java.math.BigDecimal
 import java.net.URL
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -75,9 +76,10 @@ object ProfileProcessor {
                         if (snapshot?.type == Profile.Type.Url) {
                             if (snapshot.source.startsWith("https://", true)) {
                                 val client = OkHttpClient()
+                                val versionName = context.packageManager.getPackageInfo(context.packageName, 0).versionName
                                 val request = Request.Builder()
                                     .url(snapshot.source)
-                                    .header("User-Agent", "ClashforWindows/0.19.23")
+                                    .header("User-Agent", "ClashMetaForAndroid/$versionName")
                                     .build()
 
                                 client.newCall(request).execute().use { response ->
@@ -88,13 +90,13 @@ object ProfileProcessor {
                                             val info = flag.split("=")
                                             when {
                                                 info[0].contains("upload") && info[1].isNotEmpty() -> upload =
-                                                    info[1].toLong()
+                                                    BigDecimal(info[1].split('.').first()).longValueExact()
 
                                                 info[0].contains("download") && info[1].isNotEmpty() -> download =
-                                                    info[1].toLong()
+                                                    BigDecimal(info[1].split('.').first()).longValueExact()
 
                                                 info[0].contains("total") && info[1].isNotEmpty() -> total =
-                                                    info[1].toLong()
+                                                    BigDecimal(info[1].split('.').first()).longValueExact()
 
                                                 info[0].contains("expire") && info[1].isNotEmpty() ->  expire =
                                                     (info[1].toDouble() * 1000).toLong()

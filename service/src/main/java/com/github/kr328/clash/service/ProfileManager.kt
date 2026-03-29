@@ -139,9 +139,10 @@ class ProfileManager(private val context: Context) : IProfileManager,
     suspend fun updateFlow(old: Imported) {
         val client = OkHttpClient()
         try {
+            val versionName = context.packageManager.getPackageInfo(context.packageName, 0).versionName
             val request = Request.Builder()
                 .url(old.source)
-                .header("User-Agent", "ClashforWindows/0.19.23")
+                .header("User-Agent", "ClashMetaForAndroid/$versionName")
                 .build()
 
             client.newCall(request).execute().use { response ->
@@ -160,13 +161,13 @@ class ProfileManager(private val context: Context) : IProfileManager,
                         val info = flag.split("=")
                         when {
                             info[0].contains("upload") && info[1].isNotEmpty() -> upload =
-                                BigDecimal(info[1]).longValueExact()
+                                BigDecimal(info[1].split('.').first()).longValueExact()
 
                             info[0].contains("download") && info[1].isNotEmpty() -> download =
-                                BigDecimal(info[1]).longValueExact()
+                                BigDecimal(info[1].split('.').first()).longValueExact()
 
                             info[0].contains("total") && info[1].isNotEmpty() ->  total =
-                                BigDecimal(info[1]).longValueExact()
+                                BigDecimal(info[1].split('.').first()).longValueExact()
 
                             info[0].contains("expire") && info[1].isNotEmpty() -> {
                                 if (info[1].isNotEmpty()) {

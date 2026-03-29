@@ -20,7 +20,7 @@ object Bridge {
     external fun nativeRefreshReverse(androidTypeTransport: Int)
     external fun nativeNotifyTimeZoneChanged(name: String, offset: Int)
     external fun nativeNotifyInstalledAppChanged(uidList: String)
-    external fun nativeStartTun(fd: Int, gateway: String, portal: String, dns: String, cb: TunInterface)
+    external fun nativeStartTun(fd: Int, stack: String, gateway: String, portal: String, dns: String, cb: TunInterface)
     external fun nativeStopTun()
     external fun nativeStartHttp(listenAt: String): String?
     external fun nativeStopHttp()
@@ -47,7 +47,6 @@ object Bridge {
     external fun nativeReadOverride(slot: Int): String
     external fun nativeWriteOverride(slot: Int, content: String)
     external fun nativeClearOverride(slot: Int)
-    external fun nativeInstallSideloadGeoip(data: ByteArray?)
     external fun nativeQueryConfiguration(): String
     external fun nativeSubscribeLogcat(callback: LogcatInterface)
     external fun nativeRegisterClashraySendReceiveCallback(callback: ClashraySendReceiveCallbackInterface)
@@ -64,7 +63,7 @@ object Bridge {
             .detachFd()
 
         val home = ctx.filesDir.resolve("clash").apply { mkdirs() }.absolutePath
-        val versionName = ctx.packageManager.getPackageInfo(ctx.packageName, 0).versionName
+        val versionName = ctx.packageManager.getPackageInfo(ctx.packageName, 0).versionName ?: "unknown"
         val sdkVersion = Build.VERSION.SDK_INT
 
         Log.d("Home = $home")

@@ -28,16 +28,12 @@ string (REGEX REPLACE "[\n\t\r]" "" CURRENT_BRANCH "${CURRENT_BRANCH}")
 message(STATUS "git current branch = ${CURRENT_BRANCH}")
 
 # 获取生成时间
-execute_process(
-  COMMAND date +"%y%m%d"
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} 
-  OUTPUT_VARIABLE COMPILE_TIME
-)
+string(TIMESTAMP COMPILE_TIME "%y%m%d")
 string (REGEX REPLACE "[\n\t\r]" "" COMPILE_TIME "${COMPILE_TIME}")
 string(REGEX REPLACE "\"" "" COMPILE_TIME "${COMPILE_TIME}")
 
 # 生成版本信息
-set(GIT_VERSION "Meta_${CURRENT_BRANCH}_${COMMIT_HASH}_${COMPILE_TIME}")
+set(GIT_VERSION "${CURRENT_BRANCH}_${COMMIT_HASH}_${COMPILE_TIME}")
 message(STATUS "version info = ${GIT_VERSION}")
 
 # 去除空格

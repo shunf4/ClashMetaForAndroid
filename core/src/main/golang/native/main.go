@@ -10,6 +10,7 @@ import "C"
 import (
 	"runtime"
 	// rpprof "runtime/pprof"
+	"runtime/debug"
 
 	"cfa/native/config"
 	"cfa/native/delegate"
@@ -23,12 +24,13 @@ func main() {
 }
 
 //export coreInit
-func coreInit(home, versionName C.c_string, sdkVersion C.int) {
+func coreInit(home, versionName, gitVersion C.c_string, sdkVersion C.int) {
 	h := C.GoString(home)
 	v := C.GoString(versionName)
+	g := C.GoString(gitVersion)
 	s := int(sdkVersion)
 
-	delegate.Init(h, v, s)
+	delegate.Init(h, v, g, s)
 
 	reset()
 }
@@ -42,6 +44,7 @@ func reset() {
 	// rpprof.StopCPUProfile()
 
 	runtime.GC()
+	debug.FreeOSMemory()
 }
 
 //export forceGc
@@ -50,5 +53,6 @@ func forceGc() {
 		log.Infoln("[APP] request force GC")
 
 		runtime.GC()
+		debug.FreeOSMemory()
 	}()
 }

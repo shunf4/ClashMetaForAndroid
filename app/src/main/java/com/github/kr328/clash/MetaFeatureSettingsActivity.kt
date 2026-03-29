@@ -16,6 +16,7 @@ import kotlinx.coroutines.selects.select
 import kotlinx.coroutines.withContext
 import java.io.File
 import java.io.FileOutputStream
+import com.github.kr328.clash.design.R
 
 
 class MetaFeatureSettingsActivity : BaseActivity<MetaFeatureSettingsDesign>() {
@@ -70,6 +71,12 @@ class MetaFeatureSettingsActivity : BaseActivity<MetaFeatureSettingsDesign>() {
                                 "*/*")
                             importGeoFile(uri, MetaFeatureSettingsDesign.Request.ImportCountry)
                         }
+                        MetaFeatureSettingsDesign.Request.ImportASN -> {
+                            val uri = startActivityForResult(
+                                ActivityResultContracts.GetContent(),
+                                "*/*")
+                            importGeoFile(uri, MetaFeatureSettingsDesign.Request.ImportASN)
+                        }
                     }
                 }
             }
@@ -107,6 +114,8 @@ class MetaFeatureSettingsActivity : BaseActivity<MetaFeatureSettingsDesign>() {
                         "geosite$ext"
                     MetaFeatureSettingsDesign.Request.ImportCountry ->
                         "country$ext"
+                    MetaFeatureSettingsDesign.Request.ImportASN ->
+                        "ASN$ext"
                     else -> ""
                 }
 

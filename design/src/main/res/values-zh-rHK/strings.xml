@@ -6,7 +6,6 @@
     <string name="access_control_packages">訪問控制應用包列表</string>
     <string name="append_system_dns">追加系統 DNS</string>
     <string name="application_broken">應用損壞</string>
-    <string name="application_name">MetaCubeRivX for Android</string>
     <string name="auto_update">自動更新</string>
     <string name="behavior">行為</string>
     <string name="bypass_private_network">繞過私有網絡</string>
@@ -42,8 +41,8 @@
     <string name="import_from_file">從文件導入</string>
     <string name="import_from_url">從 URL 導入</string>
     <string name="interface_">界面</string>
+    <string name="import_from_qr">從二維碼導入</string>
     <string name="invalid_url">無效的 URL</string>
-    <string name="launch_name">MetaCubeRivX</string>
     <string name="logcat">Logcat</string>
     <string name="logs">日誌</string>
     <string name="mode">模式</string>
@@ -175,8 +174,6 @@
     <string name="format_fetching_provider">正在下載外部資源 %s</string>
     <string name="initializing">正在初始化</string>
     <string name="verifying">正在校驗</string>
-    <string name="sideload_geoip">旁加載 GEOIP</string>
-    <string name="sideload_geoip_summary">外部 GEOIP 數據庫</string>
     <string name="force_enable">強制啓用</string>
     <string name="document">文檔</string>
     <string name="clash_wiki">Clash Wiki</string>
@@ -251,4 +248,6 @@
     <string name="force_dns_mapping">Force DNS Mapping</string>
     <string name="parse_pure_ip">Parse Pure IP</string>
     <string name="override_destination">Override Destination</string>
+    <string name="import_from_qr_no_permission">相機權限受限，請前往設定開啟。</string>
+    <string name="import_from_qr_exception">發生系統未知異常，操作失敗。</string>
 </resources>
