@@ -203,6 +203,18 @@ Java_com_github_kr328_clash_core_bridge_Bridge_nativeHealthCheck(JNIEnv *env, jo
 }
 
 JNIEXPORT void JNICALL
+Java_com_github_kr328_clash_core_bridge_Bridge_nativeHealthCheckOne(JNIEnv *env, jobject thiz,
+                                                                 jobject completable,
+                                                                 jstring proxyName) {
+    TRACE_METHOD();
+
+    jobject _completable = new_global(completable);
+    scoped_string _proxyName = get_string(proxyName);
+
+    healthCheckOne(_completable, _proxyName);
+}
+
+JNIEXPORT void JNICALL
 Java_com_github_kr328_clash_core_bridge_Bridge_nativeHealthCheckAll(JNIEnv *env, jobject thiz) {
     TRACE_METHOD();
 

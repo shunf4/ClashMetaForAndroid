@@ -128,6 +128,12 @@ object Clash {
         }
     }
 
+    fun healthCheckOne(proxyName: String): CompletableDeferred<Unit> {
+        return CompletableDeferred<Unit>().apply {
+            Bridge.nativeHealthCheckOne(this, proxyName)
+        }
+    }
+
     fun healthCheckAll() {
         Bridge.nativeHealthCheckAll()
     }

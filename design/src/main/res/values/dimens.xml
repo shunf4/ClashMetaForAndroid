@@ -17,8 +17,8 @@
     <dimen name="toolbar_image_action_padding">5dp</dimen>
 
     <!--  Tab Layout  -->
-    <dimen name="tab_layout_height">48dp</dimen>
-    <dimen name="tab_layout_elevation">5dp</dimen>
+    <dimen name="tab_layout_height">72dp</dimen>
+    <dimen name="tab_layout_elevation">10dp</dimen>
 
     <!--  Bottom Sheet  -->
     <dimen name="bottom_sheet_background_padding_top">10dp</dimen>

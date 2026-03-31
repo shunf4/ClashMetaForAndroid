@@ -4,9 +4,11 @@ import android.content.Context
 import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Path
+import android.text.Layout
+import android.text.StaticLayout
 import android.view.View
 import com.github.kr328.clash.common.compat.getDrawableCompat
-import com.github.kr328.clash.design.store.UiStore
+
 
 class ProxyView(
     context: Context,
@@ -177,10 +179,18 @@ class ProxyView(
         // draw title
         canvas.apply {
             val x = state.config.layoutPadding + state.config.contentPadding
-            val y = state.config.layoutPadding +
-                    (height - state.config.layoutPadding * 2) / 3f - textOffset
+            if (titleCount < state.title.length) {
+                val y = state.config.layoutPadding +
+                        (height - state.config.layoutPadding * 2) / 4f - textOffset
 
-            drawText(state.title, 0, titleCount, x, y, paint)
+                drawText(state.title, 0, titleCount, x, y, paint)
+                drawText(state.title, titleCount, state.title.length, x, y + (height - state.config.layoutPadding * 2) / 5f, paint)
+            } else {
+                val y = state.config.layoutPadding +
+                        (height - state.config.layoutPadding * 2) / 3f - textOffset
+
+                drawText(state.title, 0, titleCount, x, y, paint)
+            }
         }
 
         // draw subtitle

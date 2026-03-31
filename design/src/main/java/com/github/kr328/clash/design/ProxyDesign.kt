@@ -36,6 +36,7 @@ class ProxyDesign(
         data class Reload(val index: Int) : Request()
         data class Select(val index: Int, val name: String) : Request()
         data class UrlTest(val index: Int) : Request()
+        data class UrlTestOne(val proxyGroupTabIndex: Int, val proxyName: String) : Request()
     }
 
     private val binding = DesignProxyBinding
@@ -116,8 +117,12 @@ class ProxyDesign(
                     surface,
                     config,
                     List(groupNames.size) { index ->
-                        ProxyAdapter(config) { name ->
-                            requests.trySend(Request.Select(index, name))
+                        ProxyAdapter(config) { name, isLongClick ->
+                            if (isLongClick) {
+                                requests.trySend(Request.UrlTestOne(index, name))
+                            } else {
+                                requests.trySend(Request.Select(index, name))
+                            }
                         }
                     }
                 ) {

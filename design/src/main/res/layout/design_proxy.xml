@@ -104,7 +104,7 @@
                 android:alpha="0.96"
                 android:background="?android:windowBackground"
                 app:tabBackground="@android:color/transparent"
-                app:tabMode="scrollable" />
+                app:tabMode="auto" />
 
             <View
                 android:id="@+id/elevation_view"
