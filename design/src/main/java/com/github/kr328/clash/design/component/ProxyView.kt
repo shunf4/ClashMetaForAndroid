@@ -177,14 +177,18 @@ class ProxyView(
         }
 
         // draw title
+        var titleYOffset = 0f
         canvas.apply {
             val x = state.config.layoutPadding + state.config.contentPadding
+            // shunf4 mod: make title fully displayed on narrow grids
             if (titleCount < state.title.length) {
                 val y = state.config.layoutPadding +
                         (height - state.config.layoutPadding * 2) / 4f - textOffset
 
                 drawText(state.title, 0, titleCount, x, y, paint)
-                drawText(state.title, titleCount, state.title.length, x, y + (height - state.config.layoutPadding * 2) / 5f, paint)
+                drawText(state.title, titleCount, state.title.length, x, y + (height - state.config.layoutPadding * 2) / 4f, paint)
+
+                titleYOffset = (height - state.config.layoutPadding * 2) / 5f * 4 - (height - state.config.layoutPadding * 2) / 3f * 2
             } else {
                 val y = state.config.layoutPadding +
                         (height - state.config.layoutPadding * 2) / 3f - textOffset
@@ -197,7 +201,7 @@ class ProxyView(
         canvas.apply {
             val x = state.config.layoutPadding + state.config.contentPadding
             val y = state.config.layoutPadding +
-                    (height - state.config.layoutPadding * 2) / 3f * 2 - textOffset
+                    (height - state.config.layoutPadding * 2) / 3f * 2 + titleYOffset - textOffset
 
             drawText(state.subtitle, 0, subtitleCount, x, y, paint)
         }
